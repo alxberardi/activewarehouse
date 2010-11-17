@@ -37,7 +37,7 @@ require 'action_pack'
 require 'action_controller'
 require 'action_view'
 
-require 'fastercsv'
+require 'fastercsv' if RUBY_VERSION < '1.9'
 require 'fileutils'
 require 'adapter_extensions'
 

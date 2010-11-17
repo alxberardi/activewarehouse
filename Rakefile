@@ -83,7 +83,7 @@ module AW
       EOF
 
       s.add_dependency('rake',                '>= 0.8.3')
-      s.add_dependency('fastercsv',           '>= 1.1.0')
+      s.add_dependency('fastercsv',           '>= 1.1.0') if RUBY_VERSION < '1.9'
       s.add_dependency('activesupport',       '>= 2.1.0')
       s.add_dependency('activerecord',        '>= 2.1.0')
       s.add_dependency('actionpack',          '>= 2.1.0')
