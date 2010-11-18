@@ -19,15 +19,20 @@ module ActiveWarehouse #:nodoc:
       cattr_accessor :weekday_indicators
       @@weekday_indicators = ['Weekend','Weekday','Weekday','Weekday','Weekday','Weekday','Weekend']
 
+      # Date formatting
+      attr_accessor :date_format, :full_date_format
+
       # Initialize the builder.
       # 
       # * <tt>start_date</tt>: The start date. Defaults to 5 years ago from today.
       # * <tt>end_date</tt>: The end date. Defaults to now.
-      def initialize(start_date=Time.now.years_ago(5), end_date=Time.now, fiscal_year_offset_month=10)
+      def initialize(start_date=Time.now.years_ago(5), end_date=Time.now, fiscal_year_offset_month=10, options = {})
         @start_date = start_date.to_date
         @end_date = end_date.to_date
         @fiscal_year_offset_month = fiscal_year_offset_month.to_i 
         @holiday_indicators = []
+        @date_format = options[:date_format] || "%m/%d/%Y"
+        @full_date_format = options[:full_date_format] || "%B %d,%Y"
       end
 
       # Returns an array of hashes representing records in the dimension.
@@ -42,8 +47,8 @@ module ActiveWarehouse #:nodoc:
       def record_from_date(date)
         time = date.to_time # need methods only available in Time
         record = {}
-        record[:date] = time.strftime("%m/%d/%Y")
-        record[:full_date_description] = time.strftime("%B %d,%Y")
+        record[:date] = time.strftime(@date_format)
+        record[:full_date_description] = time.strftime(@full_date_format)
         record[:day_of_week] = time.strftime("%A")
         record[:day_in_week] = record[:day_of_week] # alias
         #record[:day_number_in_epoch] = time.to_i / 24
